@@ -1,4 +1,4 @@
-import package from "./package.json";
+import packageJson from "./package.json";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
@@ -24,6 +24,10 @@ export default [
       // del({
       //   targets: ["./dist/*"]
       // }),
+      replace({
+        __VERSION__: JSON.stringify(packageJson.version),
+        __COMMIT__: JSON.stringify(gitRevSync.short()),
+      }),
       html({
         title: "wikidown"
       }),
@@ -33,10 +37,6 @@ export default [
       }),
       typescript({
         typescript: require("typescript")
-      }),
-      replace({
-        __version__: package.version,
-        __commit_: gitRevSync.short(),
       }),
       svg({
         base64: true

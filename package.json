@@ -14,8 +14,7 @@
     "build": "npx rollup -c",
     "watch": "npx rollup -cw",
     "test": "jest --runInBand",
-    "test:coverage": "jest --runInBand --coverage",
-    "test:coverage:open": "jest --runInBand --coverage && open ./coverage/lcov-report/index.html"
+    "test:coverage": "jest --runInBand --coverage"
   },
   "repository": {
     "type": "git",

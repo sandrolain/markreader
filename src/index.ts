@@ -11,10 +11,16 @@ import SweetScroll from "sweet-scroll";
 import logo from "./logo.svg";
 
 
+const APP_NAME    = "MarkReader";
+const APP_VERSION = __VERSION__;
+const APP_COMMIT  = __COMMIT__;
+
+
 interface Config {
   title?: string;
   styleUrl?: string;
   logoUrl?: string;
+  hideLogo?: boolean;
   navigationUrl?: string;
 }
 
@@ -22,7 +28,8 @@ const defaultConfig: Config = {
   title: "MarkReader",
   styleUrl: null,
   navigationUrl: "./navigation.yaml",
-  logoUrl: logo
+  logoUrl: logo,
+  hideLogo: false
 };
 
 
@@ -336,7 +343,7 @@ const renderPage = async (contentHTML: string) => {
   })}>
     <div id="wrp">
       <nav id="navigation">
-        ${logoUrl ? html`<div id="logo"><img src=${logoUrl} alt=${config.title} /></div>` : null}
+        ${logoUrl && !config.hideLogo ? html`<div id="logo"><img src=${logoUrl} alt=${config.title} /></div>` : null}
         <div id="navigation-cnt">
           <div id="navigation-menu">${navigation}</div>
         </div>
@@ -350,7 +357,7 @@ const renderPage = async (contentHTML: string) => {
         </div>
       </nav>
     </div>
-    <div id="credits"></div>
+    <div id="credits">Created with ${APP_NAME} ${APP_VERSION} (${APP_COMMIT})</div>
   </div>`
   render(result, document.body);
   highlightNavigation();
