@@ -7,8 +7,9 @@ import del from "rollup-plugin-delete";
 import html from "@rollup/plugin-html";
 import postcss from "rollup-plugin-postcss";
 import svg from "rollup-plugin-svg";
-import replace from '@rollup/plugin-replace';
+import replace from "@rollup/plugin-replace";
 import gitRevSync from "git-rev-sync";
+import execute from "rollup-plugin-execute";
 
 export default [
   {
@@ -16,24 +17,24 @@ export default [
     output: {
       file: "dist/index.js",
       format: "umd",
-      name: "wikidown",
+      name: "markreader",
       esModule: false,
       sourcemap: true
     },
     plugins: [
-      // del({
-      //   targets: ["./dist/*"]
-      // }),
+      del({
+        targets: ["./dist/*"]
+      }),
       replace({
         __VERSION__: JSON.stringify(packageJson.version),
-        __COMMIT__: JSON.stringify(gitRevSync.short()),
+        __COMMIT__: JSON.stringify(gitRevSync.short())
       }),
       html({
-        title: "wikidown"
+        title: "MarkReader"
       }),
       resolve(),
       commonjs({
-        include: 'node_modules/**'
+        include: "node_modules/**"
       }),
       typescript({
         typescript: require("typescript")
@@ -52,7 +53,8 @@ export default [
         output: {
           comments: false
         }
-      })
+      }),
+      execute("npm run copy-to-docs")
     ]
   }
 ];

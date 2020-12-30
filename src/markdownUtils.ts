@@ -44,6 +44,7 @@ showdown.extension("highlight", function () {
 
 const converter = new showdown.Converter({
   simpleLineBreaks: true,
+  tables: true,
   extensions: [
     "highlight",
     {

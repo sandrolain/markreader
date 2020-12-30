@@ -1,0 +1,12 @@
+mainUrl: "./md/index.md"
+navigation:
+  - label: "Index"
+    file: "./md/index.md"
+  - label: "Docs"
+    children:
+    - label: "Configuration file"
+      file: "./md/configuration.md"
+    - label: "Markdown syntax"
+      file: "./md/syntax.md"
+    - label: "Anchors"
+      file: "./md/anchors.md"

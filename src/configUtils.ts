@@ -2,35 +2,42 @@ import YAML from "yaml";
 import { getFileSource, getFileUrl } from "./fileUtils";
 import logo from "./logo.svg";
 
-
+export interface NavigationItem {
+  label: string;
+  file: string;
+  children: NavigationItem[];
+}
 export interface Config {
   title?: string;
   mainUrl?: string;
   styleUrl?: string;
   logoUrl?: string;
-  navigationUrl?: string;
   preloadMessage?: string;
   hideLogo?: boolean;
   hideNavigationMenu?: boolean;
   hideHeadersMenu?: boolean;
   hideCredits?: boolean;
+  navigation?: NavigationItem[];
 }
 
 const defaultConfig: Config = {
   title: "MarkReader",
   mainUrl: "./index.md",
   styleUrl: null,
-  navigationUrl: "./navigation.yaml",
   logoUrl: logo,
+  preloadMessage: "Loading…",
   hideLogo: false,
-  preloadMessage: "Loading…"
+  hideNavigationMenu: false,
+  hideHeadersMenu: false,
+  hideCredits: false,
+  navigation: null
 };
 
 
 export const config: Config = Object.assign({}, defaultConfig);
 
 export const loadConfig = async (): Promise<Config> => {
-  const url          = getFileUrl("config.yaml");
+  const url          = getFileUrl("./config.yaml");
   const source       = await getFileSource(url);
   const customConfig = YAML.parse(source) as Config;
   if(customConfig) {
@@ -39,21 +46,8 @@ export const loadConfig = async (): Promise<Config> => {
   return config;
 };
 
-export interface NavigationItem {
-  label: string;
-  file: string;
-  children: NavigationItem[];
-}
-
-let navigationItems: NavigationItem[];
-
 export const getNavigationItems = async (config: Config): Promise<NavigationItem[]> => {
-  if(!navigationItems) {
-    const url       = getFileUrl(config.navigationUrl);
-    const source    = await getFileSource(url);
-    navigationItems = YAML.parse(source) as NavigationItem[];
-  }
-  return navigationItems;
+  return config.navigation;
 };
 
 export const getLogoUrl = (): string => {

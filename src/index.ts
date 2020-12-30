@@ -10,15 +10,13 @@ import SweetScroll from "sweet-scroll";
 import { addExternalStyle, addStyle, throttle } from "./htmlUtils";
 import { APP_COMMIT, APP_NAME, APP_VERSION } from "./constants";
 
-
-
 const renderNavigationMenu = (items: NavigationItem[]): TemplateResult => {
   const actMdUrl = getCurrentMarkdownFileUrl();
   return html`<ul>${items.map((item) => {
     const itemUrl = getFileUrl(item.file);
     const current = (itemUrl === actMdUrl);
     const submenu = item.children ? renderNavigationMenu(item.children) : null;
-    return html`<li class=${current ? "active" : null}><a href="${item.file}">${item.label}</a>${submenu}</li>`;
+    return html`<li class=${current ? "active" : null}><a href="${item.file ?? "#"}">${item.label}</a>${submenu}</li>`;
   })}</ul>`;
 };
 
@@ -185,15 +183,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.body.addEventListener("click", (event) => {
     if(event.target instanceof HTMLAnchorElement) {
-      if(event.target.href.match(/\.md$/)) {
-        const url = new URL(event.target.href, window.location.href);
-        if(url.origin === window.location.origin) {
+      const url = new URL(event.target.href, window.location.href);
+      const sameOrigin = (url.origin === window.location.origin);
+      if(sameOrigin) {
+        if(event.target.href.match(/\.md$/)) {
           event.preventDefault();
           window.location.hash = `#!${url.pathname}`;
         }
+      } else {
+        event.preventDefault();
+        window.open(url.href, "_blank");
       }
     }
-    event.preventDefault();
   });
 
   window.addEventListener("scroll", throttle(highlightNavigation));

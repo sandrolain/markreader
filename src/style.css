@@ -120,6 +120,14 @@ html, body {
   padding: 6px var(--item-padding);
   border-bottom: 1px solid #CCCCCC;
 }
+#mkrdr-navigation a:not([href="#"]):hover,
+#mkrdr-headers a:hover {
+  color: #333333;
+  background-color: #EEEEEE;
+}
+#mkrdr-navigation a[href="#"] {
+  cursor: default;
+}
 
 #mkrdr-content {
   flex: 1 1 0;
