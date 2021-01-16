@@ -139,3 +139,17 @@ html, body {
   max-width: 60ch;
   margin: 0 auto;
 }
+
+
+#mkrdr-preload,
+#mkrdr-error {
+  font-size: 48px;
+  text-align: center;
+  margin: 2em 1em;
+  font-weight: lighter;
+  color: #666666;
+}
+
+#mkrdr-error {
+  color: #CC0000;
+}

@@ -4,17 +4,18 @@ To configure and customize the MarkReader instance you can create a **config.yam
 
 The following table lists the parameters available for configuration.
 
-| Parameter          | Description                                                                      | Type    | Default                                |
-| ------------------ | -------------------------------------------------------------------------------- | ------- | -------------------------------------- |
-| title              | Window title                                                                     | string  | `"MarkReader"`                         |
-| mainUrl            | Url to the main markdown file displayed if not specified as a hash url parameter | string  | `"./index.md"`                         |
-| styleUrl           | Url to custom CSS stylesheet                                                     | string  | `null`                                 |
-| logoUrl            | Url to the logo image showed at the top of the main menu                         | string  | *Data-uri string with MarkReader logo* |
-| preloadMessage     | Message displayed while loading and rendering page content                       | string  | `"Loading…"`                           |
-| hideLogo           | Specifies whether not to display the logo image                                  | boolean | `false`                                |
-| hideNavigationMenu | Specifies whether not to display the main navigation menu                        | boolean | `false`                                |
-| hideHeadersMenu    | Specifies whether not to display the page header menu                            | boolean | `false`                                |
-| hideCredits        | Specifies whether not to display the credits/version footer bar                  | boolean | `false`                                |
+| Parameter          | Description                                                                      | Type    | Default                                         |
+|--------------------|----------------------------------------------------------------------------------|---------|-------------------------------------------------|
+| title              | Window title                                                                     | string  | `"MarkReader"`                                  |
+| mainUrl            | Url to the main markdown file displayed if not specified as a hash url parameter | string  | `"./index.md"`                                  |
+| styleUrl           | Url to custom CSS stylesheet                                                     | string  | `null`                                          |
+| logoUrl            | Url to the logo image showed at the top of the main menu                         | string  | *Data-uri string with MarkReader logo*          |
+| preloadMessage     | Message displayed while loading and rendering page content                       | string  | `"Please wait, loading the page …"`             |
+| errorMessage       | Error message displayed if there is an error in loading or rendering the page    | string  | `"Error, please reload the page to try again."` |
+| hideLogo           | Specifies whether not to display the logo image                                  | boolean | `false`                                         |
+| hideNavigationMenu | Specifies whether not to display the main navigation menu                        | boolean | `false`                                         |
+| hideHeadersMenu    | Specifies whether not to display the page header menu                            | boolean | `false`                                         |
+| hideCredits        | Specifies whether not to display the credits/version footer bar                  | boolean | `false`                                         |
 
 ## Example
 
@@ -25,7 +26,8 @@ title: "MarkReader"
 mainUrl: "./md/index.md"
 styleUrl: "./custom-style.css"
 logoUrl: "./logo.png"
-preloadMessage: "Loading…"
+preloadMessage: "Please wait, loading the page …"
+errorMessage: "Error, please reload the page to try again."
 navigation:
   - label: "Index"
     file: "./md/index.md"

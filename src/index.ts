@@ -152,7 +152,7 @@ const renderMarkdownFile = async (url: string): Promise<void> => {
     document.title = result.attributes.title || getCurrentMarkdownFilePath();
     renderPage(result.html);
   } catch(e) {
-    renderPage(`<div id="mkrdr-error">${e.message}</div>`);
+    renderPage(`<div id="mkrdr-error">${config.errorMessage}</div>`);
   }
 
 };

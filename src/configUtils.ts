@@ -13,6 +13,7 @@ export interface Config {
   styleUrl?: string;
   logoUrl?: string;
   preloadMessage?: string;
+  errorMessage?: string;
   hideLogo?: boolean;
   hideNavigationMenu?: boolean;
   hideHeadersMenu?: boolean;
@@ -25,7 +26,8 @@ const defaultConfig: Config = {
   mainUrl: "./index.md",
   styleUrl: null,
   logoUrl: logo,
-  preloadMessage: "Loading…",
+  preloadMessage: "Please wait, loading the page …",
+  errorMessage: "Error, please reload the page to try again.",
   hideLogo: false,
   hideNavigationMenu: false,
   hideHeadersMenu: false,

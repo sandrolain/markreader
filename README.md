@@ -6,9 +6,11 @@ It allows you to browse hierarchical file structures and to view documentation w
 
 ## ToDo
 - [ ] Documentation and examples
-- [ ] Preload message and styles
-- [ ] Error message and styles
+- [x] Preload message and styles
+- [x] Error message and styles
 - [x] Config: parameter to hide main navigation
 - [x] Config: parameter to hide headers navigation
 - [x] Config: parameter to hide credits
+- [ ] Shortcodes-like syntax plugin with optional definition file
+- [ ] Dark Theme
 - [ ] Embedded markdown editor / preview
