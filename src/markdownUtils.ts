@@ -43,8 +43,11 @@ showdown.extension("highlight", function () {
 
 
 const converter = new showdown.Converter({
-  simpleLineBreaks: true,
+  parseImgDimensions: true,
+  strikethrough: true,
   tables: true,
+  simpleLineBreaks: true,
+  tasklists: true,
   extensions: [
     "highlight",
     {
