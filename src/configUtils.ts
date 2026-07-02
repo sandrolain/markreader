@@ -7,6 +7,8 @@ export interface NavigationItem {
   file: string;
   children: NavigationItem[];
 }
+export type ThemeMode = "auto" | "light" | "dark";
+
 export interface Config {
   title?: string;
   mainUrl?: string;
@@ -18,6 +20,7 @@ export interface Config {
   hideNavigationMenu?: boolean;
   hideHeadersMenu?: boolean;
   hideCredits?: boolean;
+  defaultTheme?: ThemeMode;
   navigation?: NavigationItem[];
 }
 

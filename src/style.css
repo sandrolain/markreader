@@ -3,6 +3,24 @@
   --item-padding: 10px;
   --content-padding: 40px;
   --credits-height: 24px;
+
+  --bg-default: #ffffff;
+  --bg-sidebar: #f8f8f8;
+  --bg-hover: #eeeeee;
+  --fg-default: #333333;
+  --fg-muted: #666666;
+  --border-color: #cccccc;
+  --fg-error: #cc0000;
+}
+
+[data-theme="dark"] {
+  --bg-default: #0d1117;
+  --bg-sidebar: #161b22;
+  --bg-hover: #1c2128;
+  --fg-default: #e6edf3;
+  --fg-muted: #8b949e;
+  --border-color: #30363d;
+  --fg-error: #f85149;
 }
 
 html, body {
@@ -13,6 +31,8 @@ html, body {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   font-size: 16px;
   line-height: 1.5;
+  background-color: var(--bg-default);
+  color: var(--fg-default);
 }
 
 #mkrdr-root {
@@ -33,8 +53,8 @@ html, body {
   line-height: var(--credits-height);
   padding: 0 16px;
   font-size: 12px;
-  background-color: #F8F8F8;
-  color: #666666;
+  background-color: var(--bg-sidebar);
+  color: var(--fg-muted);
 }
 
 
@@ -42,19 +62,22 @@ html, body {
 #mkrdr-headers {
   flex: 0 0 240px;
   width: 240px;
-  background-color: #F8F8F8;
+  background-color: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
 }
 #mkrdr-headers {
   display: none;
 }
 #mkrdr-navigation-cnt {
   display: none;
+  flex: 1;
 }
 #mkrdr-root.with-navigation #mkrdr-navigation-cnt {
   display: block;
 }
 #mkrdr-root.with-headers #mkrdr-headers {
-  display: block;
+  display: flex;
 }
 #mkrdr-logo {
   padding: var(--navigation-padding);
@@ -114,16 +137,16 @@ html, body {
 #mkrdr-navigation a,
 #mkrdr-headers a {
   text-decoration: none;
-  color: #666666;
+  color: var(--fg-muted);
   display: block;
   line-height: 16px;
   padding: 6px var(--item-padding);
-  border-bottom: 1px solid #CCCCCC;
+  border-bottom: 1px solid var(--border-color);
 }
 #mkrdr-navigation a:not([href="#"]):hover,
 #mkrdr-headers a:hover {
-  color: #333333;
-  background-color: #EEEEEE;
+  color: var(--fg-default);
+  background-color: var(--bg-hover);
 }
 #mkrdr-navigation a[href="#"] {
   cursor: default;
@@ -132,7 +155,7 @@ html, body {
 #mkrdr-content {
   flex: 1 1 0;
   width: calc(100vw - (240px * 2));
-  box-sizing: border-box;;
+  box-sizing: border-box;
   padding: var(--content-padding);
 }
 #mkrdr-content-wrp {
@@ -147,9 +170,36 @@ html, body {
   text-align: center;
   margin: 2em 1em;
   font-weight: lighter;
-  color: #666666;
+  color: var(--fg-muted);
 }
 
 #mkrdr-error {
-  color: #CC0000;
+  color: var(--fg-error);
+}
+
+/* Theme toggle button */
+#mkrdr-theme-toggle {
+  padding: var(--navigation-padding);
+  border-top: 1px solid var(--border-color);
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px var(--item-padding);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-default);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s, color 0.15s;
+  box-sizing: border-box;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--bg-hover);
+  color: var(--fg-default);
 }

@@ -1,16 +1,32 @@
-# MarkReader: Structured markdown viewer
+# MarkReader
 
-MarkReader is a markdown file viewer based on web technologies.
-It allows you to browse hierarchical file structures and to view documentation written in markdown via browser without the need to a prior conversion to html format. Navigation and conversion is performed dynamically by the client application.
+MarkReader is a lightweight browser-based Markdown viewer for documentation and simple websites. It loads Markdown files dynamically, renders them as HTML, and supports navigation via a config-driven menu and hash-based routing.
 
+## Features
 
-## ToDo
-- [ ] Documentation and examples
-- [x] Preload message and styles
-- [x] Error message and styles
-- [x] Config: parameter to hide main navigation
-- [x] Config: parameter to hide headers navigation
-- [x] Config: parameter to hide credits
-- [ ] Shortcodes-like syntax plugin with optional definition file
-- [ ] Dark Theme
-- [ ] Embedded markdown editor / preview
+- dynamic Markdown rendering in the browser
+- navigation between Markdown documents
+- YAML-based configuration
+- optional logo, credits, and menu toggles
+- Vite-based build pipeline
+- Vitest unit tests
+
+## Development
+
+```bash
+bun install
+bun run dev
+bun run build
+bun run test
+```
+
+## Documentation
+
+The project documentation lives in the docs tree and can be browsed with the app itself.
+
+## Roadmap
+
+- improve mobile experience
+- add dark theme support
+- add richer Markdown plugin support
+- expand automated test coverage

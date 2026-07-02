@@ -1,12 +1,18 @@
 ![MarkReader](logo.svg)
 
-# Structured markdown viewer
+# MarkReader
 
-MarkReader is a markdown file viewer based on web technologies.
-It allows you to browse hierarchical file structures and to view documentation written in markdown via browser without the need to a prior conversion to html format. Navigation and conversion is performed dynamically by the client application.
+MarkReader is a lightweight browser-based Markdown viewer for documentation and simple websites. It loads Markdown files dynamically, renders them as HTML, and supports navigation via a config-driven menu and hash-based routing.
 
-## Docs
+## Highlights
 
+- no static site generator required
+- plain Markdown source files
+- easy YAML-based configuration
+- built with Vite and tested with Vitest
+
+## Start reading
+
+- [Overview](./overview.md)
 - [Configuration](./configuration.md)
-
-
+- [Markdown syntax](./syntax.md)
