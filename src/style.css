@@ -2,15 +2,17 @@
   --navigation-padding: 20px;
   --item-padding: 10px;
   --content-padding: 40px;
-  --credits-height: 24px;
+  --credits-height: 28px;
 
   --bg-default: #ffffff;
-  --bg-sidebar: #f8f8f8;
-  --bg-hover: #eeeeee;
-  --fg-default: #333333;
-  --fg-muted: #666666;
-  --border-color: #cccccc;
-  --fg-error: #cc0000;
+  --bg-sidebar: #f8f9fa;
+  --bg-hover: #eef1f4;
+  --fg-default: #1f2328;
+  --fg-muted: #59636e;
+  --border-color: #d1d9e0;
+  --fg-error: #cf222e;
+  --accent: #0969da;
+  --shadow: 0 1px 2px rgba(31, 35, 40, 0.04), 0 1px 4px rgba(31, 35, 40, 0.04);
 }
 
 [data-theme="dark"] {
@@ -21,6 +23,8 @@
   --fg-muted: #8b949e;
   --border-color: #30363d;
   --fg-error: #f85149;
+  --accent: #58a6ff;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 html, body {
@@ -28,9 +32,9 @@ html, body {
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   background-color: var(--bg-default);
   color: var(--fg-default);
 }
@@ -55,23 +59,28 @@ html, body {
   font-size: 12px;
   background-color: var(--bg-sidebar);
   color: var(--fg-muted);
+  border-top: 1px solid var(--border-color);
 }
-
 
 #mkrdr-navigation,
 #mkrdr-headers {
-  flex: 0 0 240px;
-  width: 240px;
+  flex: 0 0 260px;
+  width: 260px;
   background-color: var(--bg-sidebar);
   display: flex;
   flex-direction: column;
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
 }
 #mkrdr-headers {
   display: none;
+  border-right: none;
+  border-left: 1px solid var(--border-color);
 }
 #mkrdr-navigation-cnt {
   display: none;
   flex: 1;
+  overflow-y: auto;
 }
 #mkrdr-root.with-navigation #mkrdr-navigation-cnt {
   display: block;
@@ -82,16 +91,19 @@ html, body {
 #mkrdr-logo {
   padding: var(--navigation-padding);
   text-align: center;
+  border-bottom: 1px solid var(--border-color);
 }
 #mkrdr-logo img {
   vertical-align: top;
   width: 100%;
-  max-width: 200px;
+  max-width: 180px;
 }
 #mkrdr-navigation-cnt,
 #mkrdr-headers-cnt {
   position: sticky;
   top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 #mkrdr-headers-menu,
 #mkrdr-navigation-menu {
@@ -128,48 +140,85 @@ html, body {
   padding: 0;
 }
 #mkrdr-navigation ul ul {
-  padding-left: var(--item-padding);
+  padding-left: 18px;
+  border-left: 1px solid var(--border-color);
+  margin-left: 6px;
+}
+#mkrdr-navigation ul ul.collapsed {
+  display: none;
+}
+#mkrdr-navigation li {
+  position: relative;
+  margin: 2px 0;
 }
 #mkrdr-navigation li.active > a,
 #mkrdr-headers li.active > a {
-  font-weight: bold;
+  color: var(--accent);
+  font-weight: 600;
+  background-color: var(--bg-hover);
+  border-radius: 6px;
 }
 #mkrdr-navigation a,
-#mkrdr-headers a {
+#mkrdr-headers a,
+#mkrdr-navigation .nav-label {
   text-decoration: none;
   color: var(--fg-muted);
   display: block;
-  line-height: 16px;
+  line-height: 20px;
   padding: 6px var(--item-padding);
-  border-bottom: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
 }
-#mkrdr-navigation a:not([href="#"]):hover,
+#mkrdr-navigation .nav-label {
+  color: var(--fg-default);
+  font-weight: 600;
+  cursor: default;
+}
+#mkrdr-navigation a:hover,
 #mkrdr-headers a:hover {
   color: var(--fg-default);
   background-color: var(--bg-hover);
 }
-#mkrdr-navigation a[href="#"] {
-  cursor: default;
+
+#mkrdr-navigation .nav-toggle {
+  position: absolute;
+  left: -18px;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 4px;
+}
+#mkrdr-navigation .nav-toggle:hover {
+  background-color: var(--bg-hover);
+  color: var(--fg-default);
 }
 
 #mkrdr-content {
   flex: 1 1 0;
-  width: calc(100vw - (240px * 2));
+  width: calc(100vw - (260px * 2));
   box-sizing: border-box;
   padding: var(--content-padding);
+  background-color: var(--bg-default);
 }
 #mkrdr-content-wrp {
-  max-width: 60ch;
+  max-width: 75ch;
   margin: 0 auto;
 }
 
-
 #mkrdr-preload,
 #mkrdr-error {
-  font-size: 48px;
+  font-size: 32px;
   text-align: center;
   margin: 2em 1em;
-  font-weight: lighter;
+  font-weight: 300;
   color: var(--fg-muted);
 }
 
@@ -186,6 +235,7 @@ html, body {
 .theme-toggle-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   width: 100%;
   padding: 8px var(--item-padding);
@@ -195,11 +245,77 @@ html, body {
   color: var(--fg-muted);
   cursor: pointer;
   font-size: 13px;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
   box-sizing: border-box;
 }
 
 .theme-toggle-btn:hover {
   background: var(--bg-hover);
   color: var(--fg-default);
+  border-color: var(--accent);
+}
+
+/* Mermaid diagrams */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+}
+
+/* Markdown alerts */
+.markdown-alert {
+  padding: 16px;
+  margin: 16px 0;
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  background-color: var(--bg-sidebar);
+}
+.markdown-alert-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--fg-default);
+}
+.markdown-alert p:last-child {
+  margin-bottom: 0;
+}
+
+/* Footnotes */
+.footnotes {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid var(--border-color);
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+.footnotes ol {
+  padding-left: 1.5em;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  #mkrdr-navigation,
+  #mkrdr-headers {
+    flex: 0 0 220px;
+    width: 220px;
+  }
+  #mkrdr-content {
+    width: calc(100vw - 220px);
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  #mkrdr-wrp {
+    flex-direction: column;
+  }
+  #mkrdr-navigation,
+  #mkrdr-headers {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  #mkrdr-content {
+    width: 100%;
+    padding: 20px;
+  }
 }

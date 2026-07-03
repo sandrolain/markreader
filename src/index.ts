@@ -3,6 +3,7 @@ import {
   getCurrentMarkdownFilePath,
   getCurrentMarkdownFileUrl,
   renderMarkdown,
+  renderMermaidDiagrams,
 } from "./markdownUtils";
 import {
   config,
@@ -16,6 +17,7 @@ import markdownLightStyle from "github-markdown-css/github-markdown-light.css?in
 import markdownDarkStyle from "github-markdown-css/github-markdown-dark.css?inline";
 import hljsLightStyle from "highlight.js/styles/atom-one-light.css?inline";
 import hljsDarkStyle from "highlight.js/styles/atom-one-dark.css?inline";
+import katexStyle from "katex/dist/katex.min.css?inline";
 import { h, htmlToNodes, clear } from "./domUtils";
 import SweetScroll from "sweet-scroll";
 import { addExternalStyle, addStyle, throttle } from "./htmlUtils";
@@ -59,7 +61,10 @@ const applyTheme = (): void => {
   const effective = getEffectiveTheme(currentTheme);
   document.documentElement.setAttribute("data-theme", effective);
 
-  addStyle("mdwn-style", effective === "dark" ? markdownDarkStyle : markdownLightStyle);
+  addStyle(
+    "mdwn-style",
+    effective === "dark" ? markdownDarkStyle : markdownLightStyle,
+  );
   addStyle("hljs-style", effective === "dark" ? hljsDarkStyle : hljsLightStyle);
 
   updateToggleButton();
@@ -74,7 +79,11 @@ const loadTheme = (): Theme => {
   if (stored === "light" || stored === "dark" || stored === "auto") {
     return stored;
   }
-  if (config.defaultTheme === "light" || config.defaultTheme === "dark" || config.defaultTheme === "auto") {
+  if (
+    config.defaultTheme === "light" ||
+    config.defaultTheme === "dark" ||
+    config.defaultTheme === "auto"
+  ) {
     return config.defaultTheme;
   }
   return "auto";
@@ -90,21 +99,50 @@ const cycleTheme = (): void => {
 
 const renderNavigationMenu = (items: NavigationItem[]): HTMLUListElement => {
   const actMdUrl = getCurrentMarkdownFileUrl();
-  return h(
-    "ul",
-    null,
-    items.map((item) => {
-      const itemUrl = getFileUrl(item.file);
-      const current = itemUrl === actMdUrl;
-      const submenu = item.children
-        ? renderNavigationMenu(item.children)
-        : null;
-      return h("li", { class: current ? "active" : null }, [
-        h("a", { href: item.file ?? "#" }, [item.label]),
-        submenu,
-      ]);
-    }),
-  ) as HTMLUListElement;
+  const ul = h("ul", null) as HTMLUListElement;
+
+  for (const item of items) {
+    const itemUrl = item.file ? getFileUrl(item.file) : null;
+    const current = itemUrl === actMdUrl;
+    const hasChildren = item.children && item.children.length > 0;
+
+    const li = h("li", { class: current ? "active" : null }) as HTMLLIElement;
+    let submenu: HTMLUListElement | null = null;
+
+    if (hasChildren) {
+      submenu = renderNavigationMenu(item.children);
+      const toggle = h(
+        "button",
+        {
+          class: "nav-toggle",
+          type: "button",
+          "aria-expanded": "true",
+        },
+        ["▼"],
+      ) as HTMLButtonElement;
+      toggle.addEventListener("click", () => {
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!expanded));
+        toggle.textContent = expanded ? "▶" : "▼";
+        if (submenu) {
+          submenu.classList.toggle("collapsed", expanded);
+        }
+      });
+      li.appendChild(toggle);
+    }
+
+    const labelEl = item.file
+      ? h("a", { href: item.file }, [item.label])
+      : h("span", { class: "nav-label" }, [item.label]);
+    li.appendChild(labelEl);
+
+    if (submenu) {
+      li.appendChild(submenu);
+    }
+    ul.appendChild(li);
+  }
+
+  return ul;
 };
 
 const renderNavigation = async (): Promise<HTMLUListElement | null> => {
@@ -254,10 +292,14 @@ const renderPage = async (contentHTML: string): Promise<void> => {
               ? h("div", { id: "mkrdr-navigation-cnt" }, [
                   h("div", { id: "mkrdr-navigation-menu" }, [navigation]),
                   h("div", { id: "mkrdr-theme-toggle" }, [
-                    h("button", {
-                      class: "theme-toggle-btn",
-                      onclick: cycleTheme,
-                    }, [""]),
+                    h(
+                      "button",
+                      {
+                        class: "theme-toggle-btn",
+                        onclick: cycleTheme,
+                      },
+                      [""],
+                    ),
                   ]),
                 ])
               : null,
@@ -289,6 +331,7 @@ const renderPage = async (contentHTML: string): Promise<void> => {
   updateToggleButton();
   highlightNavigation();
   updateWindowTitle();
+  void renderMermaidDiagrams();
 };
 
 const renderMarkdownFile = async (url: string): Promise<void> => {
@@ -319,6 +362,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   addStyle("main-style", mainStyle);
   addStyle("mdwn-style", markdownLightStyle);
   addStyle("hljs-style", hljsLightStyle);
+  addStyle("katex-style", katexStyle);
 
   if (config.styleUrl) {
     addExternalStyle("cust-style", config.styleUrl);

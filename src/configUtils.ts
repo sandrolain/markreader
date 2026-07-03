@@ -4,8 +4,8 @@ import logo from "./logo.svg";
 
 export interface NavigationItem {
   label: string;
-  file: string;
-  children: NavigationItem[];
+  file?: string;
+  children?: NavigationItem[];
 }
 export type ThemeMode = "auto" | "light" | "dark";
 
@@ -35,29 +35,30 @@ const defaultConfig: Config = {
   hideNavigationMenu: false,
   hideHeadersMenu: false,
   hideCredits: false,
-  navigation: null
+  navigation: null,
 };
-
 
 export const config: Config = Object.assign({}, defaultConfig);
 
 export const loadConfig = async (): Promise<Config> => {
-  const url          = getFileUrl("./config.yaml");
-  const source       = await getFileSource(url);
+  const url = getFileUrl("./config.yaml");
+  const source = await getFileSource(url);
   const customConfig = YAML.parse(source) as Config;
-  if(customConfig) {
+  if (customConfig) {
     Object.assign(config, customConfig);
   }
   return config;
 };
 
-export const getNavigationItems = async (config: Config): Promise<NavigationItem[]> => {
+export const getNavigationItems = async (
+  config: Config,
+): Promise<NavigationItem[]> => {
   return config.navigation;
 };
 
 export const getLogoUrl = (): string => {
   const logoPath = config.logoUrl;
-  if(logoPath.match(/^data:/)) {
+  if (logoPath.match(/^data:/)) {
     return logoPath;
   }
   return getFileUrl(logoPath);

@@ -15,3 +15,8 @@ declare module "*.svg" {
 
 declare const __VERSION__: string;
 declare const __COMMIT__: string;
+
+declare module "emojilib" {
+  const lib: Record<string, string[]>;
+  export default lib;
+}
