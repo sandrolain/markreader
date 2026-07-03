@@ -108,10 +108,11 @@ const renderNavigationMenu = (items: NavigationItem[]): HTMLUListElement => {
 
     const li = h("li", { class: current ? "active" : null }) as HTMLLIElement;
     let submenu: HTMLUListElement | null = null;
+    let toggle: HTMLButtonElement | null = null;
 
     if (hasChildren) {
-      submenu = renderNavigationMenu(item.children);
-      const toggle = h(
+      submenu = renderNavigationMenu(item.children!);
+      toggle = h(
         "button",
         {
           class: "nav-toggle",
@@ -120,14 +121,6 @@ const renderNavigationMenu = (items: NavigationItem[]): HTMLUListElement => {
         },
         ["▼"],
       ) as HTMLButtonElement;
-      toggle.addEventListener("click", () => {
-        const expanded = toggle.getAttribute("aria-expanded") === "true";
-        toggle.setAttribute("aria-expanded", String(!expanded));
-        toggle.textContent = expanded ? "▶" : "▼";
-        if (submenu) {
-          submenu.classList.toggle("collapsed", expanded);
-        }
-      });
       li.appendChild(toggle);
     }
 
@@ -136,7 +129,15 @@ const renderNavigationMenu = (items: NavigationItem[]): HTMLUListElement => {
       : h("span", { class: "nav-label" }, [item.label]);
     li.appendChild(labelEl);
 
-    if (submenu) {
+    if (hasChildren && toggle && submenu) {
+      const toggleSubmenu = () => {
+        const expanded = toggle!.getAttribute("aria-expanded") === "true";
+        toggle!.setAttribute("aria-expanded", String(!expanded));
+        toggle!.textContent = expanded ? "▶" : "▼";
+        submenu!.classList.toggle("collapsed", expanded);
+      };
+      toggle.addEventListener("click", toggleSubmenu);
+      labelEl.addEventListener("click", toggleSubmenu);
       li.appendChild(submenu);
     }
     ul.appendChild(li);
@@ -285,7 +286,9 @@ const renderPage = async (contentHTML: string): Promise<void> => {
         ? h("nav", { id: "mkrdr-navigation" }, [
             withLogo
               ? h("div", { id: "mkrdr-logo" }, [
-                  h("img", { src: logoUrl, alt: config.title }),
+                  h("a", { class: "mkrdr-logo-link", href: config.mainUrl }, [
+                    h("img", { src: logoUrl, alt: config.title }),
+                  ]),
                 ])
               : null,
             withNavigation
@@ -384,11 +387,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   document.body.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      const url = new URL(event.target.href, window.location.href);
+    const anchor = (event.target as Element).closest?.("a");
+    if (anchor) {
+      const url = new URL(anchor.href, window.location.href);
       const sameOrigin = url.origin === window.location.origin;
       if (sameOrigin) {
-        if (event.target.href.match(/\.md$/)) {
+        if (anchor.href.match(/\.md$/)) {
           event.preventDefault();
           window.location.hash = `#!${url.pathname}`;
         }

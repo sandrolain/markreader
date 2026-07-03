@@ -1,6 +1,6 @@
 import YAML from "yaml";
 import { getFileSource, getFileUrl } from "./fileUtils";
-import logo from "./logo.svg";
+import logoSvgUrl from "./logo.svg";
 
 export interface NavigationItem {
   label: string;
@@ -28,7 +28,7 @@ const defaultConfig: Config = {
   title: "MarkReader",
   mainUrl: "./index.md",
   styleUrl: null,
-  logoUrl: logo,
+  logoUrl: logoSvgUrl,
   preloadMessage: "Please wait, loading the page …",
   errorMessage: "Error, please reload the page to try again.",
   hideLogo: false,
