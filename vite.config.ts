@@ -5,6 +5,7 @@ import {
   mkdirSync,
   readFileSync,
   statSync,
+  writeFileSync,
 } from "node:fs";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -40,6 +41,8 @@ function copyDocsToDist() {
           cpSync(src, dest, { recursive: true, force: true });
         }
       }
+
+      writeFileSync(resolve(distRoot, ".nojekyll"), "");
     },
   };
 }
